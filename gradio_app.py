@@ -74,10 +74,11 @@ def get_parser():
 if __name__ == "__main__":
     parser = get_parser()
     parser.add_argument('--ckpt_path', type=str, default='', help='Checkpoint file path')
+    parser.add_argument('--share', type=bool, default=False, nargs='?', const=True, help='Gradio share value')
     args = parser.parse_args()
 
     result_dir = os.path.join('./', 'results')
     dynamicrafter_iface = dynamicrafter_demo(result_dir=result_dir, ckpt_path=args.ckpt_path)
     dynamicrafter_iface.queue(max_size=12)
-    dynamicrafter_iface.launch(max_threads=1)
+    dynamicrafter_iface.launch(max_threads=1, share=args.share)
     # dynamicrafter_iface.launch(server_name='0.0.0.0', server_port=80, max_threads=1)
