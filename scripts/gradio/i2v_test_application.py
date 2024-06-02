@@ -15,14 +15,16 @@ class Image2Video():
                  result_dir='./tmp/',
                  gpu_num=1,
                  resolution='256_256',
+                 ckpt_path=''
                  ) -> None:
         self.resolution = (int(resolution.split('_')[0]), int(resolution.split('_')[1])) #hw
-        # self.download_model()
-        
+        if not ckpt_path:
+            self.download_model()
+            ckpt_path = 'checkpoints/tooncrafter_'+resolution.split('_')[1]+'_interp_v1/model.ckpt'
         self.result_dir = result_dir
         if not os.path.exists(self.result_dir):
             os.mkdir(self.result_dir)
-        ckpt_path='checkpoints/tooncrafter_'+resolution.split('_')[1]+'_interp_v1/model.ckpt'
+
         config_file='configs/inference_'+resolution.split('_')[1]+'_v1.0.yaml'
         config = OmegaConf.load(config_file)
         model_config = config.pop("model", OmegaConf.create())
